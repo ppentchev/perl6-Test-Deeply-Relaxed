@@ -49,12 +49,12 @@ sub test-deeply-relaxed($got, $expected, Bool:D :$whine = True) returns Bool:D
 	return False;
 }
 
-sub is-deeply-relaxed($got, $expected, $name) is export
+sub is-deeply-relaxed($got, $expected, $name = Str) is export
 {
 	ok test-deeply-relaxed($got, $expected), $name;
 }
 
-sub isnt-deeply-relaxed($got, $expected, $name) is export
+sub isnt-deeply-relaxed($got, $expected, $name = Str) is export
 {
 	nok test-deeply-relaxed($got, $expected, :!whine), $name;
 }
