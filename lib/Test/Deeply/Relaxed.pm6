@@ -42,10 +42,10 @@ sub check-deeply-relaxed($got, $expected) returns Bool:D
 	}
 }
 
-sub test-deeply-relaxed($got, $expected) returns Bool:D
+sub test-deeply-relaxed($got, $expected, Bool:D :$whine = True) returns Bool:D
 {
 	return True if check-deeply-relaxed($got, $expected);
-	diag "Expected:\n\t$expected.perl()\nGot:\n\t$got.perl()\n";
+	diag "Expected:\n\t$expected.perl()\nGot:\n\t$got.perl()\n" if $whine;
 	return False;
 }
 
@@ -56,5 +56,5 @@ sub is-deeply-relaxed($got, $expected, $name) is export
 
 sub isnt-deeply-relaxed($got, $expected, $name) is export
 {
-	nok test-deeply-relaxed($got, $expected), $name;
+	nok test-deeply-relaxed($got, $expected, :!whine), $name;
 }
