@@ -30,7 +30,7 @@ isnt-deeply-relaxed 1, [1], 'array and number - different';
 is-deeply-relaxed {}, {}, 'empty hash -same';
 is-deeply-relaxed {:a(42), :password('mellon')}, {password => 'mellon', a => 42}, 'non-empty hash - same';
 isnt-deeply-relaxed {}, {:password('mellon')}, 'empty and non-empty hash - different';
-isnt-deeply-relaxed {:a(42)}, {}, 'non-emtpy and empty hash - different';
+isnt-deeply-relaxed {:a(42)}, {}, 'non-empty and empty hash - different';
 
 isnt-deeply-relaxed {}, [];
 isnt-deeply-relaxed [], {}, 'empty array and empty hash - different';
