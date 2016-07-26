@@ -42,10 +42,13 @@ sub check-deeply-relaxed($got, $expected) returns Bool:D
 	}
 }
 
-sub test-deeply-relaxed($got, $expected, Bool:D :$whine = True) returns Bool:D
+sub test-deeply-relaxed($got, $expected, Bool:D :$whine = True) returns Bool:D is export(:test)
 {
 	return True if check-deeply-relaxed($got, $expected);
-	diag "Expected:\n\t$expected.perl()\nGot:\n\t$got.perl()\n" if $whine;
+	if $whine {
+		try diag "Expected:\n\t$expected.perl()\nGot:\n\t$got.perl()\n";
+		diag 'Could not output the mismatched deeply-relaxed values' if $!;
+	}
 	return False;
 }
 
