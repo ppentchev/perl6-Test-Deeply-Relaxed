@@ -6,7 +6,7 @@ use Test;
 
 use Test::Deeply::Relaxed;
 
-plan 50;
+plan 57;
 
 is-deeply-relaxed 'this', 'this', 'string - same';
 isnt-deeply-relaxed 'this', 'that', 'string - different';
@@ -74,3 +74,12 @@ isnt-deeply-relaxed set(1, 2, 'a'), set('a', 1), 'set - different';
 
 isnt-deeply-relaxed set('a', 'b'), {:a, :b}, 'set and hash - different';
 isnt-deeply-relaxed {:a, :b}, set('a', 'b'), 'hash and set - different';
+
+is-deeply-relaxed bag(1, 2, 'a'), bag('a', 2, 1), 'bag - same';
+is-deeply-relaxed bag(1, 2, 'a', 1), bag('a', 1, 2, 1), 'bag - different';
+isnt-deeply-relaxed bag(1, 2, 'a'), bag('a', 1, 2, 1), 'bag - different';
+
+isnt-deeply-relaxed bag(1, 2, 'a'), set('a', 2, 1), 'bag and set - different';
+isnt-deeply-relaxed set('a', 2, 1), bag(1, 2, 'a'), 'set and bag - different';
+isnt-deeply-relaxed bag('a', 'b', 'a'), { :a(2), :b(1) }, 'bag and hash - different';
+isnt-deeply-relaxed { :a(2), :b(1) }, bag('a', 'b', 'a'), 'hash and bag - different';
