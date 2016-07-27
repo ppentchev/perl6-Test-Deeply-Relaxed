@@ -31,8 +31,13 @@ sub check-deeply-relaxed($got, $expected) returns Bool:D
 			return $got eq $expected;
 		}
 		
+		when Bool {
+			return False unless $got ~~ Bool;
+			return ?$got == ?$expected;
+		}
+
 		when Numeric {
-			return False unless $got ~~ Numeric;
+			return False unless $got ~~ Numeric && $got !~~ Bool;
 			return $got == $expected;
 		}
 		
