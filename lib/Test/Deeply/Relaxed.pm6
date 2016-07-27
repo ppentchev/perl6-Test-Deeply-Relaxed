@@ -1,6 +1,6 @@
 #!/usr/bin/env perl6
 
-unit module Test::Deeply::Relaxed;
+unit module Test::Deeply::Relaxed:ver<0.1.0>:auth<github:ppentchev>;
 
 use v6.c;
 
@@ -159,6 +159,8 @@ but a bit more loosely.
 If the C<:cache> flag is specified, the cache of values will be used for
 any iterable objects that support it.  This allows the caller to later
 examine the sequences further.
+
+Current API available since version 0.1.0.
 =end item1
 
 =begin item1
@@ -168,6 +170,8 @@ sub isnt-deeply-relaxed
 
 The opposite of C<is-deeply-relaxed()> - fail if the two structures
 are loosely the same.
+
+Current API available since version 0.1.0.
 =end item1
 
 =head1 AUTHOR
