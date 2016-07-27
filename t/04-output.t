@@ -8,5 +8,5 @@ use Test::Deeply::Relaxed :DEFAULT, :test;
 
 plan 2;
 
-lives-ok { try die 'foo'; test-deeply-relaxed 1, $! };
-lives-ok { test-deeply-relaxed 1, (1, 2, 3...*) };
+lives-ok { try die 'foo'; test-deeply-relaxed 1, $!, :!cache };
+lives-ok { test-deeply-relaxed 1, (1, 2, 3...*), :!cache };

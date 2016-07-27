@@ -6,7 +6,14 @@ use v6.c;
 
 use Test;
 
-sub check-deeply-relaxed($got, $expected) returns Bool:D
+sub get-iterator(Iterable:D $seq, Bool:D $cache) returns Iterator:D
+{
+	$cache && $seq ~~ PositionalBindFailover
+	    ?? $seq.cache.iterator
+	    !! $seq.iterator
+}
+
+sub check-deeply-relaxed($got, $expected, Bool:D :$cache) returns Bool:D
 {
 	given $expected {
 		when Baggy {
@@ -24,7 +31,7 @@ sub check-deeply-relaxed($got, $expected) returns Bool:D
 			    $got !~~ Setty && $got !~~ Baggy;
 			return False if set($got.keys) ⊖ set($expected.keys);
 			return ?( $got.keys.map(
-			    { check-deeply-relaxed($got{$_}, $expected{$_}) }
+			    { check-deeply-relaxed($got{$_}, $expected{$_}, :$cache) }
 			    ).all);
 		}
 		
@@ -32,7 +39,7 @@ sub check-deeply-relaxed($got, $expected) returns Bool:D
 			return False unless $got ~~ Array;
 			return False unless $got.elems == $expected.elems;
 			return ?( ($got.list Z $expected.list).map(-> ($g, $e)
-			    { check-deeply-relaxed($g, $e) }
+			    { check-deeply-relaxed($g, $e, :$cache) }
 			    ).all);
 			return True;
 		}
@@ -40,8 +47,8 @@ sub check-deeply-relaxed($got, $expected) returns Bool:D
 		when Iterable {
 			return False unless $got ~~ Iterable &&
 			    $got !~~ Array && $got !~~ Associative;
-			my $i-exp = $expected.iterator;
-			my $i-got = $got.iterator;
+			my $i-exp = get-iterator($expected, $cache);
+			my $i-got = get-iterator($got, $cache);
 			loop {
 				my $v-exp := $i-exp.pull-one;
 				my $v-got := $i-got.pull-one;
@@ -50,7 +57,7 @@ sub check-deeply-relaxed($got, $expected) returns Bool:D
 				} elsif $v-got =:= IterationEnd {
 					return False;
 				}
-				return False unless check-deeply-relaxed($v-got, $v-exp);
+				return False unless check-deeply-relaxed($v-got, $v-exp, :$cache);
 			}
 		}
 		
@@ -75,9 +82,9 @@ sub check-deeply-relaxed($got, $expected) returns Bool:D
 	}
 }
 
-sub test-deeply-relaxed($got, $expected, Bool:D :$whine = True) returns Bool:D is export(:test)
+sub test-deeply-relaxed($got, $expected, Bool:D :$whine = True, Bool:D :$cache) returns Bool:D is export(:test)
 {
-	return True if check-deeply-relaxed($got, $expected);
+	return True if check-deeply-relaxed($got, $expected, :$cache);
 	if $whine {
 		try diag "Expected:\n\t$expected.perl()\nGot:\n\t$got.perl()\n";
 		diag 'Could not output the mismatched deeply-relaxed values' if $!;
@@ -85,14 +92,14 @@ sub test-deeply-relaxed($got, $expected, Bool:D :$whine = True) returns Bool:D i
 	return False;
 }
 
-sub is-deeply-relaxed($got, $expected, $name = Str) is export
+sub is-deeply-relaxed($got, $expected, $name = Str, Bool:D :$cache = False) is export
 {
-	ok test-deeply-relaxed($got, $expected), $name;
+	ok test-deeply-relaxed($got, $expected, :$cache), $name;
 }
 
-sub isnt-deeply-relaxed($got, $expected, $name = Str) is export
+sub isnt-deeply-relaxed($got, $expected, $name = Str, Bool:D :$cache = False) is export
 {
-	nok test-deeply-relaxed($got, $expected, :!whine), $name;
+	nok test-deeply-relaxed($got, $expected, :$cache, :!whine), $name;
 }
 
 =begin pod
@@ -144,16 +151,20 @@ the strings contained within are indeed the same.
 =begin item1
 sub is-deeply-relaxed
 
-    sub is-deeply-relaxed($got, $expected, $name = Str) is export
+    sub is-deeply-relaxed($got, $expected, $name = Str, Bool:D :$cache = False)
 
 Compare the two data structures in depth similarly to C<is-deeply()>,
 but a bit more loosely.
+
+If the C<:cache> flag is specified, the cache of values will be used for
+any iterable objects that support it.  This allows the caller to later
+examine the sequences further.
 =end item1
 
 =begin item1
 sub isnt-deeply-relaxed
 
-    sub isnt-deeply-relaxed($got, $expected, $name = Str) is export
+    sub isnt-deeply-relaxed($got, $expected, $name = Str, Bool:D :$cache = False)
 
 The opposite of C<is-deeply-relaxed()> - fail if the two structures
 are loosely the same.
