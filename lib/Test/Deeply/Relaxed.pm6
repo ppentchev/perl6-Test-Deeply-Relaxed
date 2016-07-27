@@ -11,7 +11,7 @@ sub check-deeply-relaxed($got, $expected) returns Bool:D
 	given $expected {
 		when Associative {
 			return False unless $got ~~ Associative;
-			return False if Set.new($got.keys) ⊖ Set.new($expected.keys);
+			return False if set($got.keys) ⊖ set($expected.keys);
 			return ?( $got.keys.map(
 			    { check-deeply-relaxed($got{$_}, $expected{$_}) }
 			    ).all);
