@@ -6,7 +6,7 @@ use Test;
 
 use Test::Deeply::Relaxed;
 
-plan 46;
+plan 50;
 
 is-deeply-relaxed 'this', 'this', 'string - same';
 isnt-deeply-relaxed 'this', 'that', 'string - different';
@@ -68,3 +68,9 @@ isnt-deeply-relaxed list(1, 2, 3, 4), (1, 2, 3...*), 'finite list and infinite s
 
 isnt-deeply-relaxed (1, 2, 3).Seq, '1 2 3', 'seq and string - different';
 isnt-deeply-relaxed '1 2 3', (1, 2, 3).Seq, 'string and seq - different';
+
+is-deeply-relaxed set(1, 2, 'a'), set('a', 2, 1), 'set - same';
+isnt-deeply-relaxed set(1, 2, 'a'), set('a', 1), 'set - different';
+
+isnt-deeply-relaxed set('a', 'b'), {:a, :b}, 'set and hash - different';
+isnt-deeply-relaxed {:a, :b}, set('a', 'b'), 'hash and set - different';

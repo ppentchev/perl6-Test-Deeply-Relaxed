@@ -9,8 +9,13 @@ use Test;
 sub check-deeply-relaxed($got, $expected) returns Bool:D
 {
 	given $expected {
+		when Setty {
+			return False unless $got ~~ Set;
+			return !($got ⊖ $expected);
+		}
+
 		when Associative {
-			return False unless $got ~~ Associative;
+			return False unless $got ~~ Associative && $got !~~ Setty;
 			return False if set($got.keys) ⊖ set($expected.keys);
 			return ?( $got.keys.map(
 			    { check-deeply-relaxed($got{$_}, $expected{$_}) }
