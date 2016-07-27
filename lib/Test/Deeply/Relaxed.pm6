@@ -94,3 +94,83 @@ sub isnt-deeply-relaxed($got, $expected, $name = Str) is export
 {
 	nok test-deeply-relaxed($got, $expected, :!whine), $name;
 }
+
+=begin pod
+
+=head1 NAME
+
+Test::Deeply::Relaxed - Compare two complex data structures loosely
+
+=head1 SYNOPSIS
+
+=begin code
+    use Test;
+    use Test::Deeply::Relaxed;
+
+    is-deeply-relaxed 'foo', 'foo';
+    isnt-deeply-relaxed 'foo', 'bar';
+
+    is-deeply-relaxed 5, 5;
+    isnt-deeply-relaxed 5, '5';
+
+    is-deeply-relaxed [1, 2, 3], Array[Int:D].new(1, 2, 3);
+
+    is-deeply-relaxed {:a("foo"), :b("bar")}, Hash[Str:D].new({ :a("foo"), :b("bar") });
+
+    # And now for the one that made me write this...
+    my Array[Str:D] %opts;
+    %opts<v> = Array[Str:D].new("v", "v");
+    %opts<i> = Array[Str:D].new("foo.txt", "bar.txt");
+    is-deeply-relaxed %opts, {:v([<v v>]), :i([<foo.txt bar.txt>]) };
+
+    # It works with weirder types, too
+    is-deeply-relaxed bag(<a b a a>), { a => 3, b => 1 }.Mix;
+    isnt-deeply-relaxed bag(<a b a a>), { a => 2, b => 1 }.Mix;
+    isnt-deeply-relaxed bag(<a b a a>), { a => 3, b => 1.5 }.Mix;
+=end code
+
+=head1 DESCRIPTION
+
+The C<Test:::Deeply::Relaxed> module provides the C<is-deeply-relaxed()>
+and C<isnt-deeply-relaxed()> functions that do not check the state of
+mind of the passed objects, but instead compare their structure in depth
+similarly to C<is-deeply()>, but a bit more loosely.  In particular, they
+ignore the differences between typed and untyped collections, e.g. they
+will consider an array and an explicit C<Array[Str:D]> to be the same if
+the strings contained within are indeed the same.
+
+=head1 FUNCTIONS
+
+=begin item1
+sub is-deeply-relaxed
+
+    sub is-deeply-relaxed($got, $expected, $name = Str) is export
+
+Compare the two data structures in depth similarly to C<is-deeply()>,
+but a bit more loosely.
+=end item1
+
+=begin item1
+sub isnt-deeply-relaxed
+
+    sub isnt-deeply-relaxed($got, $expected, $name = Str) is export
+
+The opposite of C<is-deeply-relaxed()> - fail if the two structures
+are loosely the same.
+=end item1
+
+=head1 AUTHOR
+
+Peter Pentchev <L<roam@ringlet.net|mailto:roam@ringlet.net>>
+
+=head1 COPYRIGHT
+
+Copyright (C) 2016  Peter Pentchev
+
+=head1 LICENSE
+
+The Test::Deeply::Relaxed module is distributed under the terms of
+the Artistic License 2.0.  For more details, see the full text of
+the license in the file LICENSE in the source distribution.
+
+=end pod
