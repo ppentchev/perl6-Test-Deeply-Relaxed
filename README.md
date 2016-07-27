@@ -40,13 +40,15 @@ FUNCTIONS
 
   * sub is-deeply-relaxed
 
-        sub is-deeply-relaxed($got, $expected, $name = Str) is export
+        sub is-deeply-relaxed($got, $expected, $name = Str, Bool:D :$cache = False)
 
     Compare the two data structures in depth similarly to `is-deeply()`, but a bit more loosely.
 
+    If the `:cache` flag is specified, the cache of values will be used for any iterable objects that support it. This allows the caller to later examine the sequences further.
+
   * sub isnt-deeply-relaxed
 
-        sub isnt-deeply-relaxed($got, $expected, $name = Str) is export
+        sub isnt-deeply-relaxed($got, $expected, $name = Str, Bool:D :$cache = False)
 
     The opposite of `is-deeply-relaxed()` - fail if the two structures are loosely the same.
 
