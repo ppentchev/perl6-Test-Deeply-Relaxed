@@ -6,7 +6,7 @@ use Test;
 
 use Test::Deeply::Relaxed;
 
-plan 35;
+plan 46;
 
 is-deeply-relaxed 'this', 'this', 'string - same';
 isnt-deeply-relaxed 'this', 'that', 'string - different';
@@ -53,5 +53,18 @@ isnt-deeply-relaxed {:a(42)}, ['a', 42], 'hash and array - different';
 isnt-deeply-relaxed ['a', 42], {:a(42)}, 'array and hash - different';
 
 is-deeply-relaxed {:a([1, 2, 3]), :more({:how('deep'), :does(['this', 'thing', 'go'])})},
-    {:more({:does(<this thing go>), how => 'deep'}), :a([1, 2, 3])},
+    {:more({:does([<this thing go>]), how => 'deep'}), :a([1, 2, 3])},
     'a weird and wonderful hash';
+
+is-deeply-relaxed (1, 2, 3).Seq, (1, 2, 3).Seq, 'seq - same';
+is-deeply-relaxed (1, 2, 3).Seq, list(1, 2, 3), 'seq and list - same';
+is-deeply-relaxed list(1, 2, 3), (1, 2, 3).Seq, 'list and seq - same';
+isnt-deeply-relaxed (1, 2, 3).Seq, (1, 2, 3, 4).Seq, 'seq and diff seq - different';
+isnt-deeply-relaxed (1, 2, 3).Seq, list(1, 2, 3, 4), 'seq and diff list - different';
+isnt-deeply-relaxed list(1, 2, 3), (1, 2, 3, 4).Seq, 'list and diff seq - different';
+isnt-deeply-relaxed (1, 2, 3...*), Seq(1, 2, 3, 4), 'infinite and finite seq - different';
+isnt-deeply-relaxed (1, 2, 3...*), list(1, 2, 3, 4), 'infinite seq and finite list - different';
+isnt-deeply-relaxed list(1, 2, 3, 4), (1, 2, 3...*), 'finite list and infinite seq - different';
+
+isnt-deeply-relaxed (1, 2, 3).Seq, '1 2 3', 'seq and string - different';
+isnt-deeply-relaxed '1 2 3', (1, 2, 3).Seq, 'string and seq - different';

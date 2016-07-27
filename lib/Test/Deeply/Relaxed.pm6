@@ -17,13 +17,30 @@ sub check-deeply-relaxed($got, $expected) returns Bool:D
 			    ).all);
 		}
 		
-		when Positional {
-			return False unless $got ~~ Positional;
+		when Array {
+			return False unless $got ~~ Array;
 			return False unless $got.elems == $expected.elems;
 			return ?( ($got.list Z $expected.list).map(-> ($g, $e)
 			    { check-deeply-relaxed($g, $e) }
 			    ).all);
 			return True;
+		}
+
+		when Iterable {
+			return False unless $got ~~ Iterable &&
+			    $got !~~ Array && $got !~~ Associative;
+			my $i-exp = $expected.iterator;
+			my $i-got = $got.iterator;
+			loop {
+				my $v-exp := $i-exp.pull-one;
+				my $v-got := $i-got.pull-one;
+				if $v-exp =:= IterationEnd {
+					return $v-got =:= IterationEnd;
+				} elsif $v-got =:= IterationEnd {
+					return False;
+				}
+				return False unless check-deeply-relaxed($v-got, $v-exp);
+			}
 		}
 		
 		when Str {
