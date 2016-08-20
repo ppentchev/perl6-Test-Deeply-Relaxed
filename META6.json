@@ -8,6 +8,9 @@
     "Test::Deeply::Relaxed": "lib/Test/Deeply/Relaxed.pm6"
   },
   "depends": [],
+  "test-depends": [
+    "Test::META"
+  ],
   "resources": [],
   "source-url": "https://github.com/ppentchev/perl6-Test-Deeply-Relaxed.git"
 }
