@@ -9,7 +9,7 @@ Change log for the Test::Deeply::Relaxed Perl 6 module
   all the needed dependencies with both zef and panda.
 - Test the 2017.{06,07,08,09} releases with Travis CI.
 - Use the set operators for baggy tests, too, instead of
-  the deprecated bag operators.
+  the deprecated bag operators.  Closes: #2
 
 0.1.0
 -----
