@@ -11,6 +11,8 @@ Change log for the Test::Deeply::Relaxed Perl 6 module
 - Use the set operators for baggy tests, too, instead of
   the deprecated bag operators.  Closes: #2
 - No longer test with Panda on Travis CI.
+- Merge Samantha McVey's pull request #1 to specify
+  the Artistic-2.0 license in META6.json.
 
 0.1.0
 -----
