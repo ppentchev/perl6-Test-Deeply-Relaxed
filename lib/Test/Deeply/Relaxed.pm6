@@ -1,6 +1,6 @@
 #!/usr/bin/env perl6
 
-unit module Test::Deeply::Relaxed:ver<0.1.1.dev2>:auth<github:ppentchev>;
+unit module Test::Deeply::Relaxed:ver<0.1.1>:auth<github:ppentchev>;
 
 use v6.c;
 
