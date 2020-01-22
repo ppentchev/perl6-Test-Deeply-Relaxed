@@ -1,5 +1,11 @@
-Change log for the Test::Deeply::Relaxed Perl 6 module
-======================================================
+Change log for the Test::Deeply::Relaxed Raku module
+====================================================
+
+0.1.3
+-----
+
+- Rename the files using Raku extensions.
+- Add some more fields to the META6.json file.
 
 0.1.2
 -----
