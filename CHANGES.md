@@ -1,6 +1,15 @@
 Change log for the Test::Deeply::Relaxed Perl 6 module
 ======================================================
 
+0.1.2
+-----
+
+- Move the "use v6.c" declaration to the first lines of
+  all files that it appears in; thanks, Aleks-Daniel
+  Jakimenko-Aleksejev!
+- Add a .gitignore file.
+- Test with more recent Perl 6 versions.
+
 0.1.1
 -----
 
