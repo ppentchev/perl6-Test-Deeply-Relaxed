@@ -1,8 +1,8 @@
-#!/usr/bin/env perl6
+#!/usr/bin/env raku
 
 use v6.c;
 
-unit module Test::Deeply::Relaxed:ver<0.1.2>:auth<github:ppentchev>;
+unit module Test::Deeply::Relaxed:ver<0.1.3>:auth<github:ppentchev>;
 
 use Test;
 
