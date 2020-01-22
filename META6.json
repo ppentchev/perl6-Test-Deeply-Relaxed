@@ -2,6 +2,8 @@
   "perl": "6.c",
   "name": "Test::Deeply::Relaxed",
   "license" : "Artistic-2.0",
+  "api": "0",
+  "auth": "github:ppentchev",
   "version": "0.1.3",
   "description": "Compare two complex data structures loosely",
   "authors": [ "Peter Pentchev" ],
@@ -13,5 +15,11 @@
     "Test::META"
   ],
   "resources": [],
-  "source-url": "https://github.com/ppentchev/perl6-Test-Deeply-Relaxed.git"
+  "source-url": "https://github.com/ppentchev/perl6-Test-Deeply-Relaxed.git",
+  "support": {
+    "email": "roam@ringlet.net",
+    "bugtracker": "https://github.com/ppentchev/perl6-Test-Deeply-Relaxed/issues",
+    "source": "https://github.com/ppentchev/perl6-Test-Deeply-Relaxed"
+  },
+  "production": true
 }
