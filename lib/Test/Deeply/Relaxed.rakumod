@@ -180,7 +180,7 @@ Peter Pentchev <L<roam@ringlet.net|mailto:roam@ringlet.net>>
 
 =head1 COPYRIGHT
 
-Copyright (C) 2016, 2017  Peter Pentchev
+Copyright (C) 2016, 2017, 2020  Peter Pentchev
 
 =head1 LICENSE
 
